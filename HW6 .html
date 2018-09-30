@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Giphy HW6!</title>
+    
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+</head>
+<body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript">
+    
+    var btncon = document.getElementById("btncon");
+    
+    var topics = ["baseball", "basketball", "football", "soccer", "swimming", "golf","box","rugby","pentathlon","wrestling"];
+    console.log(topics);
+    // create buttons
+    for(var i=0; i<topics.length; i=i+1) {
+        var btn = document.createElement("BUTTON");
+        var t = document.createTextNode(topics[i]);
+        btn.appendChild(t);
+        document.body.appendChild(btn);
+        }
+
+    // call giphy
+    $("#button").on("click", function(){ 
+        var topic = $(this).attr("data-sport");
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + topic + "&api_key=KILociWl2xoLfH3ZlOPvN1wKjOEA0HtO";//here goes my apikey
+    
+    $.ajax({
+        url: queryURL,
+        method:"GET"
+            }).then(function(response){
+                var results = response.data;
+    // loop intended to add up to 10 images on the page
+                for (var h=0; h< 10; h=h+1) {
+                    var gifDiv = $("<div>");
+                    var rating = results[h].rating;
+                    var p = $("<p>").text("Rating: " + rating);
+
+                    var image = $("<img>");
+                    image.attr("src", results[h].images.fixed_height.url);
+
+                    gifDiv.prepend(p);
+                    gifDiv.prepend(image);
+
+                    $("#gifs-appear-here").prepend(gifDiv);
+                }
+
+            });
+
+
+    });
+    
+
+
+
+
+</script>
+</body>
+</html>
